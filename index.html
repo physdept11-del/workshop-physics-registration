@@ -1,470 +1,190 @@
+[file name]: admin.html
+[file content begin]
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تسجيل ورشة عمل فيزياء الأنظمة المركبة</title>
-    
+    <title>لوحة تحكم تسجيلات الورشة</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <style>
+        body { font-family: 'Arial', sans-serif; background: #f0f2f5; }
+        .stats-card { background: white; border-radius: 1rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); transition: transform 0.3s; }
+        .stats-card:hover { transform: translateY(-5px); }
+        .table-container { background: white; border-radius: 1rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }
+        .badge-online { background: #dbeafe; color: #1e40af; }
+        .badge-onsite { background: #d1fae5; color: #065f46; }
+        .badge-certificate { background: #fef3c7; color: #92400e; }
+    </style>
 </head>
-<body>
-    <div class="hero-section relative overflow-hidden">
-        <div class="absolute inset-0 bg-gradient-to-br from-blue-900 via-purple-800 to-indigo-900 opacity-95"></div>
-        <div class="absolute inset-0 opacity-10" style="background-image: url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ffffff" fill-opacity="0.4"%3E%3Cpath d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
+<body class="p-4">
+    <div class="container mx-auto">
+        <div class="flex items-center justify-between mb-8">
+            <h1 class="text-3xl font-bold text-blue-800">📊 لوحة تحكم التسجيلات</h1>
+            <div class="flex items-center gap-3">
+                <img src="mans.jpg" alt="الجامعة" class="h-12 w-auto">
+                <img src="1648992350gk0b2GxdFl.jpg" alt="الكلية" class="h-12 w-auto">
+                <img src="545863485_122101879311017744_4728741439539241774_n.jpg" alt="القسم" class="h-12 w-auto">
+            </div>
+        </div>
         
-        <div class="container mx-auto px-4 py-12 relative z-10">
-            <div class="flex flex-wrap justify-center items-center gap-8 mb-8">
-                <div class="logo-container bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/20 hover:scale-105 transition-transform duration-300">
-                    <div class="flex items-center gap-4">
-                        <div class="w-16 h-16 bg-white rounded-xl flex items-center justify-center shadow-lg overflow-hidden">
-                            <img src="mans.jpg" alt="جامعة المنصورة" class="w-14 h-14 object-contain">
-                        </div>
-                        <div class="text-right">
-                            <h3 class="text-white font-bold text-lg">جامعة المنصورة</h3>
-                            <p class="text-blue-200 text-sm">Mansoura University</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="logo-container bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/20 hover:scale-105 transition-transform duration-300">
-                    <div class="flex items-center gap-4">
-                        <div class="w-16 h-16 bg-white rounded-xl flex items-center justify-center shadow-lg overflow-hidden">
-                            <img src="1648992350gk0b2GxdFl.jpg" alt="كلية العلوم" class="w-14 h-14 object-contain">
-                        </div>
-                        <div class="text-right">
-                            <h3 class="text-white font-bold text-lg">كلية العلوم</h3>
-                            <p class="text-blue-200 text-sm">Faculty of Science</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="logo-container bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/20 hover:scale-105 transition-transform duration-300">
-                    <div class="flex items-center gap-4">
-                        <div class="w-16 h-16 bg-white rounded-xl flex items-center justify-center shadow-lg overflow-hidden">
-                            <img src="545863485_122101879311017744_4728741439539241774_n.jpg" alt="قسم الفيزياء" class="w-14 h-14 object-contain">
-                        </div>
-                        <div class="text-right">
-                            <h3 class="text-white font-bold text-lg">قسم الفيزياء</h3>
-                            <p class="text-blue-200 text-sm">Physics Department</p>
-                        </div>
-                    </div>
-                </div>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="stats-card p-6 text-center">
+                <div class="text-4xl font-bold text-blue-600" id="totalCount">0</div>
+                <div class="text-gray-600 mt-2">إجمالي المسجلين</div>
             </div>
-
-            <div class="text-center">
-                <div class="inline-block bg-white/10 backdrop-blur-lg rounded-2xl px-8 py-3 mb-6 border border-white/20">
-                    <span class="text-white font-semibold text-sm tracking-wider">قسم الفيزياء - كلية العلوم - جامعة المنصورة</span>
-                </div>
-                <h1 class="text-5xl md:text-6xl font-black text-white mb-4 leading-tight">
-                    ورشة عمل فيزياء 2
-                </h1>
-                <h2 class="text-2xl md:text-3xl text-blue-200 mb-8 font-light">
-                    فيزياء الأنظمة المركبة: النمذجة والمحاكاة وتطبيقاتها الحيوية
-                </h2>
-                <div class="flex flex-wrap justify-center gap-4">
-                    <div class="bg-white/10 backdrop-blur-sm rounded-xl px-6 py-3 border border-white/20">
-                        <i class="fas fa-calendar-alt text-blue-300 ml-2"></i>
-                        <span class="text-white">29-30 سبتمبر 2026</span>
-                    </div>
-                    <div class="bg-white/10 backdrop-blur-sm rounded-xl px-6 py-3 border border-white/20">
-                        <i class="fas fa-map-marker-alt text-blue-300 ml-2"></i>
-                        <span class="text-white">قسم الفيزياء - جامعة المنصورة</span>
-                    </div>
-                </div>
+            <div class="stats-card p-6 text-center">
+                <div class="text-4xl font-bold text-green-600" id="onsiteCount">0</div>
+                <div class="text-gray-600 mt-2">حضور فعلي</div>
+            </div>
+            <div class="stats-card p-6 text-center">
+                <div class="text-4xl font-bold text-blue-600" id="onlineCount">0</div>
+                <div class="text-gray-600 mt-2">حضور اونلاين</div>
+            </div>
+            <div class="stats-card p-6 text-center">
+                <div class="text-4xl font-bold text-purple-600" id="latestDate">-</div>
+                <div class="text-gray-600 mt-2">آخر تسجيل</div>
             </div>
         </div>
-    </div>
-
-    <div class="container mx-auto px-4 py-8 -mt-8 relative z-20">
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
-            <div class="bg-white rounded-2xl shadow-2xl p-6 text-center transform hover:-translate-y-2 transition duration-300">
-                <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
-                    <i class="fas fa-calendar-check text-white text-2xl"></i>
-                </div>
-                <h3 class="font-bold text-gray-800 text-lg">التاريخ</h3>
-                <p class="text-gray-600 mt-1">29-30 سبتمبر 2026</p>
+        
+        <div class="table-container overflow-hidden mb-8">
+            <div class="px-6 py-4 bg-gray-50 border-b">
+                <h2 class="text-xl font-bold text-gray-800">قائمة المسجلين</h2>
             </div>
-            
-            <div class="bg-white rounded-2xl shadow-2xl p-6 text-center transform hover:-translate-y-2 transition duration-300">
-                <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
-                    <i class="fas fa-clock text-white text-2xl"></i>
-                </div>
-                <h3 class="font-bold text-gray-800 text-lg">التوقيت</h3>
-                <p class="text-gray-600 mt-1">9:00 صباحاً - 3:00 عصراً</p>
-            </div>
-            
-            <div class="bg-white rounded-2xl shadow-2xl p-6 text-center transform hover:-translate-y-2 transition duration-300">
-                <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
-                    <i class="fas fa-ticket-alt text-white text-2xl"></i>
-                </div>
-                <h3 class="font-bold text-gray-800 text-lg">رسوم الحضور</h3>
-                <p class="text-gray-600 mt-1">100 جنيه</p>
-                <p class="text-xs text-gray-400">(حضور فقط)</p>
-            </div>
-            
-            <div class="bg-white rounded-2xl shadow-2xl p-6 text-center transform hover:-translate-y-2 transition duration-300">
-                <div class="w-16 h-16 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
-                    <i class="fas fa-certificate text-white text-2xl"></i>
-                </div>
-                <h3 class="font-bold text-gray-800 text-lg">حضور + شهادة</h3>
-                <p class="text-gray-600 mt-1">200 جنيه</p>
-                <p class="text-xs text-gray-400">(شهادة معتمدة)</p>
+            <div class="overflow-x-auto">
+                <table class="w-full" id="registrationsTable">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="py-3 px-4">#</th>
+                            <th class="py-3 px-4">الاسم (عربي)</th>
+                            <th class="py-3 px-4">الاسم (إنجليزي)</th>
+                            <th class="py-3 px-4">الجنسية</th>
+                            <th class="py-3 px-4">البريد</th>
+                            <th class="py-3 px-4">الهاتف</th>
+                            <th class="py-3 px-4">الجامعة</th>
+                            <th class="py-3 px-4">خيار التسجيل</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody"></tbody>
+                </table>
             </div>
         </div>
-
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div class="lg:col-span-2">
-                <div class="bg-white rounded-3xl shadow-2xl overflow-hidden">
-                    <div class="bg-gradient-to-r from-blue-600 to-purple-600 px-8 py-6">
-                        <h3 class="text-2xl font-bold text-white flex items-center">
-                            <i class="fas fa-user-edit ml-3"></i>
-                            نموذج التسجيل
-                        </h3>
-                        <p class="text-blue-100 text-sm mt-1">يرجى ملء جميع الحقول المطلوبة بدقة</p>
-                    </div>
-                    
-                    <div class="p-8">
-                        <form id="registrationForm">
-                            <div class="mb-10">
-                                <h4 class="text-lg font-bold text-gray-800 mb-6 flex items-center">
-                                    <span class="w-8 h-8 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-sm font-bold ml-3">1</span>
-                                    البيانات الشخصية
-                                </h4>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div class="form-group">
-                                        <label class="block text-gray-700 font-semibold mb-2 text-sm">
-                                            الاسم الكامل (عربي) <span class="text-red-500">*</span>
-                                        </label>
-                                        <input type="text" id="full_name_ar" name="full_name_ar" required 
-                                            class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition"
-                                            placeholder="أحمد محمد علي">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="block text-gray-700 font-semibold mb-2 text-sm">
-                                            الاسم الكامل (إنجليزي) <span class="text-red-500">*</span>
-                                            <span class="block text-xs text-gray-400 font-normal">(كما سيظهر في الشهادة)</span>
-                                        </label>
-                                        <input type="text" id="full_name_en" name="full_name_en" required 
-                                            class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition"
-                                            placeholder="Ahmed Mohamed Ali">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="block text-gray-700 font-semibold mb-2 text-sm">
-                                            الرقم القومي <span class="text-red-500">*</span>
-                                        </label>
-                                        <input type="text" id="national_id" name="national_id" required 
-                                            class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition"
-                                            placeholder="الرقم القومي (14 رقماً)">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="block text-gray-700 font-semibold mb-2 text-sm">
-                                            البريد الإلكتروني <span class="text-red-500">*</span>
-                                        </label>
-                                        <input type="email" id="email" name="email" required 
-                                            class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition"
-                                            placeholder="example@university.edu">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="block text-gray-700 font-semibold mb-2 text-sm">
-                                            رقم الهاتف <span class="text-red-500">*</span>
-                                        </label>
-                                        <input type="tel" id="phone" name="phone" required 
-                                            class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition"
-                                            placeholder="01XXXXXXXXX">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="block text-gray-700 font-semibold mb-2 text-sm">
-                                            الجنسية
-                                        </label>
-                                        <input type="text" id="nationality" name="nationality" 
-                                            class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition"
-                                            placeholder="مصرية">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="mb-10">
-                                <h4 class="text-lg font-bold text-gray-800 mb-6 flex items-center">
-                                    <span class="w-8 h-8 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center text-sm font-bold ml-3">2</span>
-                                    المعلومات الأكاديمية
-                                </h4>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div class="form-group">
-                                        <label class="block text-gray-700 font-semibold mb-2 text-sm">
-                                            المستوى الدراسي <span class="text-red-500">*</span>
-                                        </label>
-                                        <select id="academic_level" name="academic_level" required 
-                                            class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition bg-white">
-                                            <option value="">اختر المستوى الدراسي</option>
-                                            <option value="طالب بكالوريوس">طالب بكالوريوس</option>
-                                            <option value="طالب ماجستير">طالب ماجستير</option>
-                                            <option value="طالب دكتوراه">طالب دكتوراه</option>
-                                            <option value="باحث">باحث</option>
-                                            <option value="أكاديمي">أكاديمي</option>
-                                            <option value="مهتم بالفيزياء">مهتم بالفيزياء</option>
-                                            <option value="آخر">آخر</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="block text-gray-700 font-semibold mb-2 text-sm">
-                                            الجامعة/المؤسسة <span class="text-red-500">*</span>
-                                        </label>
-                                        <input type="text" id="university" name="university" required 
-                                            class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition"
-                                            placeholder="اسم الجامعة أو المؤسسة">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="block text-gray-700 font-semibold mb-2 text-sm">
-                                            القسم/التخصص <span class="text-red-500">*</span>
-                                        </label>
-                                        <input type="text" id="department" name="department" required 
-                                            class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition"
-                                            placeholder="مثال: قسم الفيزياء">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="block text-gray-700 font-semibold mb-2 text-sm">
-                                            السنة الدراسية
-                                        </label>
-                                        <input type="text" id="year_of_study" name="year_of_study" 
-                                            class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition"
-                                            placeholder="مثال: السنة الثالثة">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="mb-10">
-                                <h4 class="text-lg font-bold text-gray-800 mb-6 flex items-center">
-                                    <span class="w-8 h-8 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-sm font-bold ml-3">3</span>
-                                    خيارات التسجيل
-                                </h4>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <label class="flex items-start p-5 border-2 border-gray-200 rounded-2xl cursor-pointer hover:border-blue-400 hover:bg-blue-50 transition-all duration-300">
-                                        <input type="radio" name="registration_option" value="حضور فقط" required 
-                                            class="mt-1 ml-4 w-5 h-5 text-blue-600">
-                                        <div>
-                                            <span class="font-bold text-gray-800 text-lg block">حضور فقط</span>
-                                            <p class="text-gray-600 mt-1">رسوم: <span class="font-bold text-green-600">100 جنيه</span></p>
-                                        </div>
-                                    </label>
-                                    <label class="flex items-start p-5 border-2 border-gray-200 rounded-2xl cursor-pointer hover:border-purple-400 hover:bg-purple-50 transition-all duration-300">
-                                        <input type="radio" name="registration_option" value="حضور + شهادة" required 
-                                            class="mt-1 ml-4 w-5 h-5 text-purple-600">
-                                        <div>
-                                            <span class="font-bold text-gray-800 text-lg block">حضور + شهادة</span>
-                                            <p class="text-gray-600 mt-1">رسوم: <span class="font-bold text-purple-600">200 جنيه</span></p>
-                                            <p class="text-xs text-gray-400 mt-1">شهادة معتمدة</p>
-                                        </div>
-                                    </label>
-                                </div>
-                            </div>
-
-                            <div class="mb-10">
-                                <h4 class="text-lg font-bold text-gray-800 mb-6 flex items-center">
-                                    <span class="w-8 h-8 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center text-sm font-bold ml-3">4</span>
-                                    مجالات الاهتمام
-                                </h4>
-                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                                    <label class="flex items-center p-3 border-2 border-gray-200 rounded-xl hover:border-blue-400 hover:bg-blue-50 cursor-pointer transition">
-                                        <input type="checkbox" name="interests[]" value="النمذجة والمحاكاة" 
-                                            class="ml-3 w-5 h-5 text-blue-600 rounded">
-                                        <span class="font-medium text-gray-700">النمذجة والمحاكاة</span>
-                                    </label>
-                                    <label class="flex items-center p-3 border-2 border-gray-200 rounded-xl hover:border-blue-400 hover:bg-blue-50 cursor-pointer transition">
-                                        <input type="checkbox" name="interests[]" value="الأنظمة المركبة" 
-                                            class="ml-3 w-5 h-5 text-blue-600 rounded">
-                                        <span class="font-medium text-gray-700">الأنظمة المركبة</span>
-                                    </label>
-                                    <label class="flex items-center p-3 border-2 border-gray-200 rounded-xl hover:border-blue-400 hover:bg-blue-50 cursor-pointer transition">
-                                        <input type="checkbox" name="interests[]" value="التطبيقات الحيوية" 
-                                            class="ml-3 w-5 h-5 text-blue-600 rounded">
-                                        <span class="font-medium text-gray-700">التطبيقات الحيوية</span>
-                                    </label>
-                                    <label class="flex items-center p-3 border-2 border-gray-200 rounded-xl hover:border-blue-400 hover:bg-blue-50 cursor-pointer transition">
-                                        <input type="checkbox" name="interests[]" value="الفيزياء النظرية" 
-                                            class="ml-3 w-5 h-5 text-blue-600 rounded">
-                                        <span class="font-medium text-gray-700">الفيزياء النظرية</span>
-                                    </label>
-                                    <label class="flex items-center p-3 border-2 border-gray-200 rounded-xl hover:border-blue-400 hover:bg-blue-50 cursor-pointer transition">
-                                        <input type="checkbox" name="interests[]" value="الفيزياء التجريبية" 
-                                            class="ml-3 w-5 h-5 text-blue-600 rounded">
-                                        <span class="font-medium text-gray-700">الفيزياء التجريبية</span>
-                                    </label>
-                                </div>
-                            </div>
-
-                            <div class="mb-8 p-5 bg-gray-50 rounded-2xl border-2 border-gray-200">
-                                <label class="flex items-start cursor-pointer">
-                                    <input type="checkbox" id="terms" required 
-                                        class="mt-1 ml-3 w-5 h-5 text-blue-600 rounded">
-                                    <span class="text-gray-700 text-sm">
-                                        أوافق على جمع ومعالجة بياناتي الشخصية لغرض التسجيل في ورشة العمل وتلقي التواصل بشأنها. 
-                                        <span class="text-red-500">*</span>
-                                    </span>
-                                </label>
-                            </div>
-
-                            <button type="submit" id="submitBtn" 
-                                class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold py-4 px-6 rounded-2xl hover:from-blue-700 hover:to-purple-700 transition duration-300 transform hover:scale-[1.02] shadow-xl text-lg">
-                                <i class="fas fa-paper-plane ml-2"></i>
-                                إرسال التسجيل
-                            </button>
-
-                            <div class="text-center text-sm text-gray-400 pt-4">
-                                <span class="text-red-500">*</span> الحقول المطلوبة
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <div class="space-y-6">
-                <div class="bg-white rounded-3xl shadow-2xl p-6">
-                    <h3 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
-                        <i class="fas fa-headset text-green-500 ml-3 text-2xl"></i>
-                        معلومات الاتصال
-                    </h3>
-                    
-                    <div class="flex justify-around mb-6 p-3 bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl">
-                        <div class="text-center">
-                            <div class="w-12 h-12 bg-white rounded-xl shadow-md flex items-center justify-center mx-auto overflow-hidden">
-                                <img src="mans.jpg" alt="الجامعة" class="w-10 h-10 object-contain">
-                            </div>
-                            <span class="text-xs text-gray-600 mt-1 block">الجامعة</span>
-                        </div>
-                        <div class="text-center">
-                            <div class="w-12 h-12 bg-white rounded-xl shadow-md flex items-center justify-center mx-auto overflow-hidden">
-                                <img src="1648992350gk0b2GxdFl.jpg" alt="الكلية" class="w-10 h-10 object-contain">
-                            </div>
-                            <span class="text-xs text-gray-600 mt-1 block">الكلية</span>
-                        </div>
-                        <div class="text-center">
-                            <div class="w-12 h-12 bg-white rounded-xl shadow-md flex items-center justify-center mx-auto overflow-hidden">
-                                <img src="545863485_122101879311017744_4728741439539241774_n.jpg" alt="القسم" class="w-10 h-10 object-contain">
-                            </div>
-                            <span class="text-xs text-gray-600 mt-1 block">القسم</span>
-                        </div>
-                    </div>
-                    
-                    <div class="space-y-4">
-                        <div class="flex items-start p-3 bg-gray-50 rounded-xl">
-                            <i class="fas fa-envelope text-blue-500 mt-1 ml-3 text-lg"></i>
-                            <div>
-                                <div class="text-sm text-gray-500">البريد الإلكتروني</div>
-                                <a href="mailto:phys.dept11@gmail.com" class="text-blue-600 hover:underline font-medium">phys.dept11@gmail.com</a>
-                            </div>
-                        </div>
-                        <div class="flex items-start p-3 bg-gray-50 rounded-xl">
-                            <i class="fas fa-university text-purple-500 mt-1 ml-3 text-lg"></i>
-                            <div>
-                                <div class="text-sm text-gray-500">الموقع</div>
-                                <div class="text-gray-700 font-medium">قسم الفيزياء، كلية العلوم</div>
-                                <div class="text-gray-600">جامعة المنصورة</div>
-                            </div>
-                        </div>
-                        <div class="flex items-start p-3 bg-gray-50 rounded-xl">
-                            <i class="fas fa-user-tie text-indigo-500 mt-1 ml-3 text-lg"></i>
-                            <div>
-                                <div class="text-sm text-gray-500">رئيس الورشة</div>
-                                <div class="text-gray-700 font-medium">أ.د. محمد عبدالكريم البقرى</div>
-                            </div>
-                        </div>
-                        <div class="flex items-start p-3 bg-gray-50 rounded-xl">
-                            <i class="fas fa-user-graduate text-pink-500 mt-1 ml-3 text-lg"></i>
-                            <div>
-                                <div class="text-sm text-gray-500">مقرر الورشة</div>
-                                <div class="text-gray-700 font-medium">أ.م.د. الإمام زكريا عمر</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-gradient-to-br from-purple-600 to-indigo-700 rounded-3xl shadow-2xl p-6 text-white">
-                    <h3 class="text-xl font-bold mb-6 flex items-center">
-                        <i class="fas fa-chart-line ml-3 text-2xl"></i>
-                        إحصائيات التسجيل
-                    </h3>
-                    
-                    <div class="text-center py-4">
-                        <div class="text-6xl font-black mb-2" id="registeredCount">0</div>
-                        <div class="text-purple-200 text-lg">مشترك مسجل</div>
-                    </div>
-                    <div class="mt-4 text-center text-purple-200 text-sm bg-white/10 rounded-xl py-3 px-4">
-                        <i class="fas fa-clock ml-2"></i>
-                        كن من أوائل المسجلين
-                    </div>
-                </div>
-
-                <div class="bg-white rounded-3xl shadow-2xl p-6 text-center">
-                    <div class="flex justify-center gap-6">
-                        <div class="w-14 h-14 bg-blue-100 rounded-2xl flex items-center justify-center">
-                            <i class="fas fa-atom text-blue-600 text-2xl"></i>
-                        </div>
-                        <div class="w-14 h-14 bg-purple-100 rounded-2xl flex items-center justify-center">
-                            <i class="fas fa-microscope text-purple-600 text-2xl"></i>
-                        </div>
-                        <div class="w-14 h-14 bg-green-100 rounded-2xl flex items-center justify-center">
-                            <i class="fas fa-dna text-green-600 text-2xl"></i>
-                        </div>
-                    </div>
-                    <p class="text-gray-500 text-sm mt-4">فيزياء الأنظمة المركبة</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="mt-16 pt-8 border-t-2 border-gray-200">
-            <div class="flex flex-wrap justify-center items-center gap-8 mb-6">
-                <div class="flex items-center gap-3 opacity-60 hover:opacity-100 transition">
-                    <img src="mans.jpg" alt="جامعة المنصورة" class="h-10 w-auto">
-                    <span class="text-gray-600 font-medium">جامعة المنصورة</span>
-                </div>
-                <div class="w-px h-8 bg-gray-300"></div>
-                <div class="flex items-center gap-3 opacity-60 hover:opacity-100 transition">
-                    <img src="1648992350gk0b2GxdFl.jpg" alt="كلية العلوم" class="h-10 w-auto">
-                    <span class="text-gray-600 font-medium">كلية العلوم</span>
-                </div>
-                <div class="w-px h-8 bg-gray-300"></div>
-                <div class="flex items-center gap-3 opacity-60 hover:opacity-100 transition">
-                    <img src="545863485_122101879311017744_4728741439539241774_n.jpg" alt="قسم الفيزياء" class="h-10 w-auto">
-                    <span class="text-gray-600 font-medium">قسم الفيزياء</span>
-                </div>
-            </div>
-            <div class="text-center">
-                <p class="text-gray-600 font-medium">ورشة عمل <strong>"فيزياء الأنظمة المركبة: النمذجة والمحاكاة وتطبيقاتها الحيوية"</strong></p>
-                <p class="text-gray-500 text-sm mt-2">قسم الفيزياء - كلية العلوم - جامعة المنصورة © 2026</p>
-                <p class="text-gray-500 text-sm mt-1">📧 للاستفسارات: <a href="mailto:phys.dept11@gmail.com" class="text-blue-600 hover:underline">phys.dept11@gmail.com</a></p>
-            </div>
-        </div>
-    </div>
-
-    <div id="successModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 hidden">
-        <div class="bg-white rounded-3xl max-w-md w-full p-8 transform transition-all duration-300 scale-95 opacity-0" id="modalContent">
-            <div class="text-center">
-                <div class="w-24 h-24 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-2xl">
-                    <i class="fas fa-check text-white text-4xl"></i>
-                </div>
-                <h3 class="text-2xl font-bold text-gray-800 mb-4">تم التسجيل بنجاح! 🎉</h3>
-                <p class="text-gray-600 mb-6">
-                    شكراً <span id="userName" class="font-bold text-blue-600"></span> لتسجيلك في ورشة العمل. 
-                    تم إرسال تأكيد إلى بريدك الإلكتروني <span id="userEmail" class="font-medium text-purple-600"></span>
-                </p>
-                <div class="bg-blue-50 p-4 rounded-2xl mb-6">
-                    <p class="text-sm text-gray-700">
-                        <i class="fas fa-info-circle text-blue-500 ml-2"></i>
-                        تم حفظ بياناتك وسيتم التواصل معك قريباً.
-                    </p>
-                </div>
-                <button onclick="closeModal()" 
-                    class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold py-3 px-6 rounded-2xl hover:opacity-90 transition">
-                    حسناً
+        
+        <div class="bg-white rounded-xl shadow-lg p-6 flex flex-wrap gap-4 items-center justify-between">
+            <h3 class="text-lg font-bold">تحميل البيانات</h3>
+            <div class="flex flex-wrap gap-4">
+                <button onclick="downloadCSV()" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">
+                    📥 تحميل CSV
+                </button>
+                <button onclick="downloadJSON()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+                    📥 تحميل JSON
+                </button>
+                <button onclick="clearData()" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition">
+                    🗑️ مسح البيانات
                 </button>
             </div>
         </div>
     </div>
-
-    <script src="form-handler.js"></script>
-    <script src="script.js"></script>
+    
+    <script>
+        function loadData() {
+            const submissions = JSON.parse(localStorage.getItem('workshop_submissions') || '[]');
+            
+            document.getElementById('totalCount').textContent = submissions.length;
+            
+            const onsiteCount = submissions.filter(s => s.registration_option && !s.registration_option.includes('اونلاين')).length;
+            document.getElementById('onsiteCount').textContent = onsiteCount;
+            
+            const onlineCount = submissions.filter(s => s.registration_option && s.registration_option.includes('اونلاين')).length;
+            document.getElementById('onlineCount').textContent = onlineCount;
+            
+            if (submissions.length > 0) {
+                const latest = submissions[submissions.length - 1];
+                document.getElementById('latestDate').textContent = 
+                    new Date(latest.timestamp).toLocaleDateString('ar-EG');
+            }
+            
+            const tableBody = document.getElementById('tableBody');
+            tableBody.innerHTML = '';
+            
+            submissions.forEach((reg, index) => {
+                const row = document.createElement('tr');
+                row.className = index % 2 === 0 ? 'bg-gray-50' : 'bg-white';
+                
+                let badgeClass = 'bg-gray-100 text-gray-800';
+                if (reg.registration_option && reg.registration_option.includes('اونلاين')) {
+                    badgeClass = 'bg-blue-100 text-blue-800';
+                } else if (reg.registration_option && reg.registration_option.includes('شهادة')) {
+                    badgeClass = 'bg-yellow-100 text-yellow-800';
+                } else {
+                    badgeClass = 'bg-green-100 text-green-800';
+                }
+                
+                row.innerHTML = `
+                    <td class="py-2 px-4">${index + 1}</td>
+                    <td class="py-2 px-4">${reg.full_name_ar || ''}</td>
+                    <td class="py-2 px-4">${reg.full_name_en || ''}</td>
+                    <td class="py-2 px-4">
+                        <span class="${reg.nationality === 'مصري' ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'} px-2 py-1 rounded text-sm">
+                            ${reg.nationality || ''}
+                        </span>
+                    </td>
+                    <td class="py-2 px-4">${reg.email || ''}</td>
+                    <td class="py-2 px-4">${reg.phone || ''}</td>
+                    <td class="py-2 px-4">${reg.university || ''}</td>
+                    <td class="py-2 px-4">
+                        <span class="${badgeClass} px-2 py-1 rounded text-sm">
+                            ${reg.registration_option || ''}
+                        </span>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+        
+        function downloadCSV() {
+            const submissions = JSON.parse(localStorage.getItem('workshop_submissions') || '[]');
+            const headers = ['الاسم العربي', 'الاسم الإنجليزي', 'الجنسية', 'البريد', 'الهاتف', 'الجامعة', 'القسم', 'خيار التسجيل', 'مجالات الاهتمام', 'التاريخ'];
+            let csv = headers.join(',') + '\n';
+            
+            submissions.forEach(reg => {
+                const row = [
+                    `"${reg.full_name_ar}"`, `"${reg.full_name_en}"`, `"${reg.nationality}"`,
+                    `"${reg.email}"`, `"${reg.phone}"`, `"${reg.university}"`,
+                    `"${reg.department}"`, `"${reg.registration_option}"`,
+                    `"${(reg.interests || []).join('; ')}"`,
+                    `"${new Date(reg.timestamp).toLocaleString('ar-EG')}"`
+                ];
+                csv += row.join(',') + '\n';
+            });
+            
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `registrations_${new Date().toISOString().split('T')[0]}.csv`;
+            link.click();
+        }
+        
+        function downloadJSON() {
+            const submissions = JSON.parse(localStorage.getItem('workshop_submissions') || '[]');
+            const dataStr = JSON.stringify(submissions, null, 2);
+            const blob = new Blob([dataStr], { type: 'application/json' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `registrations_${new Date().toISOString().split('T')[0]}.json`;
+            link.click();
+        }
+        
+        function clearData() {
+            if (confirm('هل أنت متأكد من مسح جميع البيانات؟')) {
+                localStorage.removeItem('workshop_submissions');
+                loadData();
+                alert('تم مسح البيانات');
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', loadData);
+    </script>
 </body>
 </html>
+[file content end]
