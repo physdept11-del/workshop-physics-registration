@@ -23,14 +23,18 @@
             </div>
         </div>
         
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
             <div class="stats-card p-6 text-center">
                 <div class="text-4xl font-bold text-blue-600" id="totalCount">0</div>
                 <div class="text-gray-600 mt-2">إجمالي المسجلين</div>
             </div>
             <div class="stats-card p-6 text-center">
-                <div class="text-4xl font-bold text-green-600" id="certificateCount">0</div>
-                <div class="text-gray-600 mt-2">طلبوا شهادة</div>
+                <div class="text-4xl font-bold text-green-600" id="onsiteCount">0</div>
+                <div class="text-gray-600 mt-2">حضور فعلي</div>
+            </div>
+            <div class="stats-card p-6 text-center">
+                <div class="text-4xl font-bold text-blue-600" id="onlineCount">0</div>
+                <div class="text-gray-600 mt-2">حضور اونلاين</div>
             </div>
             <div class="stats-card p-6 text-center">
                 <div class="text-4xl font-bold text-purple-600" id="latestDate">-</div>
@@ -49,7 +53,7 @@
                             <th class="py-3 px-4">#</th>
                             <th class="py-3 px-4">الاسم (عربي)</th>
                             <th class="py-3 px-4">الاسم (إنجليزي)</th>
-                            <th class="py-3 px-4">الرقم القومي</th>
+                            <th class="py-3 px-4">الجنسية</th>
                             <th class="py-3 px-4">البريد</th>
                             <th class="py-3 px-4">الهاتف</th>
                             <th class="py-3 px-4">الجامعة</th>
@@ -82,8 +86,12 @@
             const submissions = JSON.parse(localStorage.getItem('workshop_submissions') || '[]');
             
             document.getElementById('totalCount').textContent = submissions.length;
-            const certificateCount = submissions.filter(s => s.registration_option === 'حضور + شهادة').length;
-            document.getElementById('certificateCount').textContent = certificateCount;
+            
+            const onsiteCount = submissions.filter(s => s.registration_option && !s.registration_option.includes('اونلاين')).length;
+            document.getElementById('onsiteCount').textContent = onsiteCount;
+            
+            const onlineCount = submissions.filter(s => s.registration_option && s.registration_option.includes('اونلاين')).length;
+            document.getElementById('onlineCount').textContent = onlineCount;
             
             if (submissions.length > 0) {
                 const latest = submissions[submissions.length - 1];
@@ -97,16 +105,30 @@
             submissions.forEach((reg, index) => {
                 const row = document.createElement('tr');
                 row.className = index % 2 === 0 ? 'bg-gray-50' : 'bg-white';
+                
+                let badgeClass = 'bg-gray-100 text-gray-800';
+                if (reg.registration_option && reg.registration_option.includes('اونلاين')) {
+                    badgeClass = 'bg-blue-100 text-blue-800';
+                } else if (reg.registration_option && reg.registration_option.includes('شهادة')) {
+                    badgeClass = 'bg-yellow-100 text-yellow-800';
+                } else {
+                    badgeClass = 'bg-green-100 text-green-800';
+                }
+                
                 row.innerHTML = `
                     <td class="py-2 px-4">${index + 1}</td>
                     <td class="py-2 px-4">${reg.full_name_ar || ''}</td>
                     <td class="py-2 px-4">${reg.full_name_en || ''}</td>
-                    <td class="py-2 px-4">${reg.national_id || ''}</td>
+                    <td class="py-2 px-4">
+                        <span class="${reg.nationality === 'مصري' ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'} px-2 py-1 rounded text-sm">
+                            ${reg.nationality || ''}
+                        </span>
+                    </td>
                     <td class="py-2 px-4">${reg.email || ''}</td>
                     <td class="py-2 px-4">${reg.phone || ''}</td>
                     <td class="py-2 px-4">${reg.university || ''}</td>
                     <td class="py-2 px-4">
-                        <span class="${reg.registration_option === 'حضور + شهادة' ? 'bg-yellow-100 text-yellow-800' : 'bg-blue-100 text-blue-800'} px-2 py-1 rounded text-sm">
+                        <span class="${badgeClass} px-2 py-1 rounded text-sm">
                             ${reg.registration_option || ''}
                         </span>
                     </td>
@@ -117,14 +139,15 @@
         
         function downloadCSV() {
             const submissions = JSON.parse(localStorage.getItem('workshop_submissions') || '[]');
-            const headers = ['الاسم العربي', 'الاسم الإنجليزي', 'الرقم القومي', 'البريد', 'الهاتف', 'الجامعة', 'القسم', 'خيار التسجيل', 'التاريخ'];
+            const headers = ['الاسم العربي', 'الاسم الإنجليزي', 'الجنسية', 'البريد', 'الهاتف', 'الجامعة', 'القسم', 'خيار التسجيل', 'مجالات الاهتمام', 'التاريخ'];
             let csv = headers.join(',') + '\n';
             
             submissions.forEach(reg => {
                 const row = [
-                    `"${reg.full_name_ar}"`, `"${reg.full_name_en}"`, `"${reg.national_id}"`,
+                    `"${reg.full_name_ar}"`, `"${reg.full_name_en}"`, `"${reg.nationality}"`,
                     `"${reg.email}"`, `"${reg.phone}"`, `"${reg.university}"`,
                     `"${reg.department}"`, `"${reg.registration_option}"`,
+                    `"${(reg.interests || []).join('; ')}"`,
                     `"${new Date(reg.timestamp).toLocaleString('ar-EG')}"`
                 ];
                 csv += row.join(',') + '\n';
